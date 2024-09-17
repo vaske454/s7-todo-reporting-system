@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TodoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,5 +23,15 @@ Route::view('dashboard', 'dashboard')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+
+// Route to show the form
+Route::get('select-user', [TodoController::class, 'showForm'])
+    ->middleware(['auth'])
+    ->name('select-user');
+
+// Route to generate the report with GET method
+Route::match(['get', 'post'], 'generate-report', [TodoController::class, 'generateReport'])
+    ->middleware(['auth'])
+    ->name('generate-report');
 
 require __DIR__.'/auth.php';
