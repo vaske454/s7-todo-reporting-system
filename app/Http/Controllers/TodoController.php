@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class TodoController extends Controller
@@ -47,22 +49,28 @@ class TodoController extends Controller
         $incompletedTasks = $totalTasks - $completedTasks;
         $completionRate = $totalTasks > 0 ? ($completedTasks / $totalTasks) * 100 : 0;
 
-        $chartHtml = view('report', [
+        $process = new Process(['node', base_path('node_scripts/generateChart.js'), $completionRate]);
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        $chartPath = public_path('chart-image.png');
+
+        $pdf = Pdf::loadView('report', [
             'totalTasks' => $totalTasks,
             'completedTasks' => $completedTasks,
             'incompletedTasks' => $incompletedTasks,
-            'completionRate' => $completionRate
-        ])->render();
-
-        $pdf = Pdf::loadHTML($chartHtml)
-            ->setPaper('a4', 'landscape')
-            ->output();
+            'completionRate' => $completionRate,
+            'chartPath' => $chartPath
+        ])->setPaper('a4', 'landscape')->output();
 
         return response()->stream(
             function () use ($pdf) {
                 echo $pdf;
             },
-            200, // Status kod
+            200,
             [
                 'Content-Type' => 'application/pdf',
                 'Content-Disposition' => 'attachment; filename="report.pdf"',
