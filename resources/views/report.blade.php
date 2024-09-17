@@ -19,5 +19,9 @@
 <p>Completed Tasks: {{ $completedTasks }}</p>
 <p>Incomplete Tasks: {{ $incompletedTasks }}</p>
 <p>Completion Rate: {{ number_format($completionRate, 2) }}%</p>
+
+<div class="chart">
+    <img src="{{ $chartPath }}" alt="Chart">
+</div>
 </body>
 </html>
