@@ -9,6 +9,14 @@
 
 # Laravel 10 To-Do Reporting System
 
+
+## Prerequisites
+
+Before getting started, make sure you have the following installed:
+
+- [Docker](https://docs.docker.com/engine/install/)
+- [DDEV](https://ddev.readthedocs.io/en/stable/#installation)
+
 ## Getting Started
 
 Follow these steps to set up and run the project:
