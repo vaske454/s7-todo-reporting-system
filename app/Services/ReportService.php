@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -9,6 +10,7 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use App\Mail\TaskReportMail;
 use App\Models\User;
+use App\Events\AllTasksCompleted;
 
 class ReportService
 {
@@ -20,7 +22,12 @@ class ReportService
         $userTodos = array_filter($todos, fn($todo) => $todo['userId'] == $userId);
 
         $totalTasks = count($userTodos);
+
+        // $completedTasks = $totalTasks;
+
+        // Uncomment the previous line and comment out this line to trigger the AllTasksCompleted event.
         $completedTasks = count(array_filter($userTodos, fn($todo) => $todo['completed']));
+
         $incompletedTasks = $totalTasks - $completedTasks;
         $completionRate = $totalTasks > 0 ? ($completedTasks / $totalTasks) * 100 : 0;
 
@@ -55,6 +62,11 @@ class ReportService
         }
 
         Mail::to($user->email)->send(new TaskReportMail($user, $pdfPath, $chartPath));
+
+        // Trigger the AllTasksCompleted event if all tasks for the user are completed
+        if ($completedTasks === $totalTasks && $totalTasks > 0) {
+            event(new AllTasksCompleted($user));
+        }
 
         unlink($pdfPath);
         unlink($chartPath);
