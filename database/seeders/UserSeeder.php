@@ -74,19 +74,35 @@ class UserSeeder extends Seeder
      */
     protected function seedAdmin(): void
     {
-        $existingAdmin = DB::table('users')->where('email', 'admin@example.com')->first();
+        $adminUsers = [
+            [
+                'name' => 'Admin User 1',
+                'email' => 'admin1@example.com',
+                'password' => 'adminpassword1',
+            ],
+            [
+                'name' => 'Admin User 2',
+                'email' => 'admin2@example.com',
+                'password' => 'adminpassword2',
+            ],
+            // Add more users as needed
+        ];
 
-        if (!$existingAdmin) {
-            DB::table('users')->insert([
-                'name' => 'Admin User',
-                'email' => 'admin@example.com',
-                'email_verified_at' => Carbon::now(),
-                'password' => Hash::make('adminpassword'),
-                'remember_token' => Str::random(10),
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-                'is_admin' => true,
-            ]);
+        foreach ($adminUsers as $admin) {
+            $existingAdmin = DB::table('users')->where('email', $admin['email'])->first();
+
+            if (!$existingAdmin) {
+                DB::table('users')->insert([
+                    'name' => $admin['name'],
+                    'email' => $admin['email'],
+                    'email_verified_at' => Carbon::now(),
+                    'password' => Hash::make($admin['password']),
+                    'remember_token' => Str::random(10),
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                    'is_admin' => true,
+                ]);
+            }
         }
     }
 }
