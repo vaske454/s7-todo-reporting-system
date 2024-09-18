@@ -6,6 +6,7 @@ use App\Services\TodoService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
@@ -64,7 +65,9 @@ class UserSeeder extends Seeder
                     'updated_at' => Carbon::now(),
                 ]);
             } else {
-                echo "API user 'User $userId' with email 'user$userId@example.com' already exists and was not created.\n";
+                $errorMessage = "API user 'User $userId' with email 'user$userId@example.com' already exists and was not created.\n";
+                echo $errorMessage;
+                Log::info($errorMessage);
             }
         }
     }
@@ -74,19 +77,7 @@ class UserSeeder extends Seeder
      */
     protected function seedAdmin(): void
     {
-        $adminUsers = [
-            [
-                'name' => 'Admin User 1',
-                'email' => 'admin1@example.com',
-                'password' => 'adminpassword1',
-            ],
-            [
-                'name' => 'Admin User 2',
-                'email' => 'admin2@example.com',
-                'password' => 'adminpassword2',
-            ],
-            // Add more users as needed
-        ];
+        $adminUsers = config('admin.admins');
 
         foreach ($adminUsers as $admin) {
             $existingAdmin = DB::table('users')->where('email', $admin['email'])->first();
@@ -103,7 +94,9 @@ class UserSeeder extends Seeder
                     'is_admin' => true,
                 ]);
             } else {
-                echo "Admin user '{$admin['name']}' with email '{$admin['email']}' already exists and was not created.\n";
+                $errorMessage = "Admin user '{$admin['name']}' with email '{$admin['email']}' already exists and was not created.\n";
+                echo $errorMessage;
+                Log::info($errorMessage);
             }
         }
     }
