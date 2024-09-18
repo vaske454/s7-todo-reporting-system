@@ -42,11 +42,6 @@ class TodoController extends Controller
             return redirect()->route('select-user')->withErrors(['user_id' => 'User ID is required']);
         }
 
-        try {
-            $this->reportService->generateAndSendReport($userId);
-            return redirect()->route('select-user')->with('success', 'Report sent to user!');
-        } catch (\Exception $e) {
-            return redirect()->route('select-user')->withErrors(['error' => 'An error occurred: ' . $e->getMessage()]);
-        }
+        return $this->reportService->generateAndSendReport($userId);
     }
 }
