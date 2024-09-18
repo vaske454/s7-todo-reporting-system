@@ -12,6 +12,6 @@ class EmailService
     {
         $loggedInUser = Auth::user();
         Mail::alwaysFrom($loggedInUser->email, $loggedInUser->name);
-        Mail::to($user->email)->send(new TaskReportMail($user, $pdfPath, $chartPath));
+        Mail::to($user->email, $user->name)->send(new TaskReportMail($user, $pdfPath, $chartPath));
     }
 }

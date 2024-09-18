@@ -102,6 +102,8 @@ class UserSeeder extends Seeder
                     'updated_at' => Carbon::now(),
                     'is_admin' => true,
                 ]);
+            } else {
+                echo "Admin user '{$admin['name']}' with email {$admin['email']} already exists and was not created.\n";
             }
         }
     }
