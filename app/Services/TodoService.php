@@ -6,11 +6,16 @@ use Illuminate\Support\Facades\Http;
 
 class TodoService
 {
-    public function fetchUserTodos($userId)
+    public function fetchUserTodos($userId = null)
     {
         $response = Http::get('https://jsonplaceholder.typicode.com/todos');
         $todos = $response->json();
-        return array_filter($todos, fn($todo) => $todo['userId'] == $userId);
+
+        if ($userId) {
+            return array_filter($todos, fn($todo) => $todo['userId'] == $userId);
+        }
+
+        return $todos;
     }
 
     public function countCompletedTasks($userTodos, $totalTasks): int

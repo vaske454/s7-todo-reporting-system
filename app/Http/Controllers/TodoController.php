@@ -26,7 +26,12 @@ class TodoController extends Controller
     public function showForm(): View
     {
         $users = User::all();
-        return view('select-user', compact('users'));
+
+        $filteredUsers = $users->filter(function ($user) {
+            return !$user->is_admin;
+        });
+
+        return view('select-user', ['users' => $filteredUsers]);
     }
 
     public function generateReport(Request $request): StreamedResponse|RedirectResponse

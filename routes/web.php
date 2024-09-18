@@ -26,12 +26,12 @@ Route::view('profile', 'profile')
 
 // Route to show the form
 Route::get('select-user', [TodoController::class, 'showForm'])
-    ->middleware(['auth'])
+    ->middleware(['auth', 'admin'])
     ->name('select-user');
 
 // Route to generate the report with GET method
 Route::match(['get', 'post'], 'generate-report', [TodoController::class, 'generateReport'])
-    ->middleware(['auth'])
+    ->middleware(['auth', 'admin'])
     ->name('generate-report');
 
 require __DIR__.'/auth.php';
