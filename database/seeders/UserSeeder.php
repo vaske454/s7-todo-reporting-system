@@ -23,8 +23,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->truncate();
-
         // Fetch all todos
         $todos = $this->todoService->fetchUserTodos();
 
@@ -65,6 +63,8 @@ class UserSeeder extends Seeder
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
+            } else {
+                echo "API user 'User $userId' with email 'user$userId@example.com' already exists and was not created.\n";
             }
         }
     }
@@ -103,7 +103,7 @@ class UserSeeder extends Seeder
                     'is_admin' => true,
                 ]);
             } else {
-                echo "Admin user '{$admin['name']}' with email {$admin['email']} already exists and was not created.\n";
+                echo "Admin user '{$admin['name']}' with email '{$admin['email']}' already exists and was not created.\n";
             }
         }
     }
