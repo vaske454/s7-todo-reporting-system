@@ -27,25 +27,37 @@ Follow these steps to set up and run the project:
     npm install
     ```
 
-3. **Start the Development Environment:**
+3. **Generate Application Key:**
+
+    ```bash
+    ddev php artisan key:generate
+    ```
+
+4. **Start the Development Environment:**
 
     ```bash
     ddev start
     ```
 
-4. **Run Migrations:**
+5. **Run Migrations:**
 
     ```bash
     ddev php artisan migrate
     ```
 
-5. **Seed the Database with Users:**
+6. **Seed the Database with Users:**
 
     ```bash
     ddev php artisan db:seed --class=UserSeeder
     ```
 
-6. **Access the Application:**
+7. **Build Frontend Assets:**
+
+    ```bash
+    npm run build
+    ```
+
+8. **Access the Application:**
 
    Open your browser and go to [http://s7-todo-reporting-system.ddev.site](http://s7-todo-reporting-system.ddev.site) to view the application.
 
