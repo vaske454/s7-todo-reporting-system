@@ -32,9 +32,6 @@ class UserSeeder extends Seeder
 
         // Seed users based on the fetched todos
         $this->seedUsers($userIds);
-
-        // Seed admin user
-        $this->seedAdmin();
     }
 
     /**
@@ -66,35 +63,6 @@ class UserSeeder extends Seeder
                 ]);
             } else {
                 $errorMessage = "API user 'User $userId' with email 'user$userId@example.com' already exists and was not created.\n";
-                echo $errorMessage;
-                Log::info($errorMessage);
-            }
-        }
-    }
-
-    /**
-     * Seed the admin user if it doesn't already exist.
-     */
-    protected function seedAdmin(): void
-    {
-        $adminUsers = config('admin.admins');
-
-        foreach ($adminUsers as $admin) {
-            $existingAdmin = DB::table('users')->where('email', $admin['email'])->first();
-
-            if (!$existingAdmin) {
-                DB::table('users')->insert([
-                    'name' => $admin['name'],
-                    'email' => $admin['email'],
-                    'email_verified_at' => Carbon::now(),
-                    'password' => Hash::make($admin['password']),
-                    'remember_token' => Str::random(10),
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                    'is_admin' => true,
-                ]);
-            } else {
-                $errorMessage = "Admin user '{$admin['name']}' with email '{$admin['email']}' already exists and was not created.\n";
                 echo $errorMessage;
                 Log::info($errorMessage);
             }

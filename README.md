@@ -45,11 +45,16 @@ Follow these steps to set up and run the project:
     ddev php artisan migrate
     ```
 
-6. **Seed the Database with Users:**
+6. **Create Admin Users and Seed the Database:**
+
+   Run the following command to create admin users and seed the database with the necessary data:
 
     ```bash
-    ddev php artisan db:seed --class=UserSeeder
+    ddev php artisan app:create-admin-users
     ```
+
+   This command will automatically run the `ddev php artisan db:seed --class=UserSeeder` command to seed the database with initial data and then create the admin users.
+
 
 7. **Build Frontend Assets:**
 
