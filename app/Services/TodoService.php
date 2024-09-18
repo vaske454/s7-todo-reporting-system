@@ -8,7 +8,8 @@ class TodoService
 {
     public function fetchUserTodos($userId = null)
     {
-        $response = Http::get('https://jsonplaceholder.typicode.com/todos');
+        $url = config('services.todo_service.url');
+        $response = Http::get($url);
         $todos = $response->json();
 
         if ($userId) {

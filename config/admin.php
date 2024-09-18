@@ -24,15 +24,15 @@ return [
 
     'admins' => [
         [
-            'name' => 'Admin User 1',
-            'email' => 'admin1@example.com',
-            'password' => 'adminpassword1',
+            'name' => env('ADMIN_USER_1_NAME', 'Admin User 1'),
+            'email' => env('ADMIN_USER_1_EMAIL', 'admin1@example.com'),
+            'password' => env('ADMIN_USER_1_PASSWORD', 'adminpassword1'),
         ],
         [
-            'name' => 'Admin User 2',
-            'email' => 'admin2@example.com',
-            'password' => 'adminpassword2',
+            'name' => env('ADMIN_USER_2_NAME', 'Admin User 2'),
+            'email' => env('ADMIN_USER_2_EMAIL', 'admin2@example.com'),
+            'password' => env('ADMIN_USER_2_PASSWORD', 'adminpassword2'),
         ],
+        // Add more users as needed
     ],
-    // Add more users as needed
 ];
