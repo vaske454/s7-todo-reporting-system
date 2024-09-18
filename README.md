@@ -3,64 +3,97 @@
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Current Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# Laravel 10 To-Do Reporting System
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Getting Started
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Follow these steps to set up and run the project:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. **Clone the Repository:**
 
-## Learning Laravel
+    ```bash
+    git clone git@github.com:vaske454/s7-todo-reporting-system.git
+    cd s7-todo-reporting-system
+    ```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+2. **Install Dependencies:**
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    ```bash
+    ddev composer install
+    npm install
+    ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3. **Start the Development Environment:**
 
-## Laravel Sponsors
+    ```bash
+    ddev start
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+4. **Run Migrations:**
 
-### Premium Partners
+    ```bash
+    ddev php artisan migrate
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+5. **Seed the Database with Users:**
 
-## Contributing
+    ```bash
+    ddev php artisan db:seed --class=UserSeeder
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+6. **Access the Application:**
 
-## Code of Conduct
+   Open your browser and go to [http://s7-todo-reporting-system.ddev.site](http://s7-todo-reporting-system.ddev.site) to view the application.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Description
 
-## Security Vulnerabilities
+This project is a Laravel 10 application that demonstrates a simple login system and provides functionality for generating reports based on TODO items fetched from an external API.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+To access the select-user page and perform operations, you must log in as an admin user. Use one of the following credentials to log in after running the seeder:
 
-## License
+### Admin Credentials
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Admin User 1:**
+- **Email:** `admin1@example.com`
+- **Password:** `adminpassword1`
+
+**Admin User 2:**
+- **Email:** `admin2@example.com`
+- **Password:** `adminpassword2`
+
+Once logged in as an admin, you will be able to:
+
+1. Go to the [Select User](http://s7-todo-reporting-system.ddev.site/select-user) page.
+2. Select a user from the dropdown menu.
+3. Fetch TODO items for the selected user from [JSONPlaceholder API](https://jsonplaceholder.typicode.com/todos).
+4. Generate a report in the desired format and send it to the selected user's email address. The report includes:
+    - Total number of TODO tasks
+    - Number of completed tasks
+    - Number of incomplete tasks
+    - Percentage of completed tasks
+    - A pie chart showing the percentage of completed tasks
+
+The email will be sent from the currently logged-in admin user to the selected user after submitting the form.
+
+Additionally, if all TODO tasks for the selected user are completed, an event will trigger, and a congratulatory email will be sent.
+
+## Usage
+
+To run the application after the initial setup, ensure you execute:
+
+```bash
+ddev start
+```
+This will start the development environment and allow you to interact with the application.
+
+If you make changes to JavaScript files or add Tailwind CSS classes, you will need to rebuild the assets. Use the following command to build the assets:
+
+```bash
+npm run build
+```
+
+This will process and bundle your JavaScript and CSS files for production.
