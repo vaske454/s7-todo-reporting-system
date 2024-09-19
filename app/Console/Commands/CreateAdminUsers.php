@@ -3,11 +3,11 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
-use Symfony\Component\Process\Process;
 
 class CreateAdminUsers extends Command
 {
@@ -33,11 +33,13 @@ class CreateAdminUsers extends Command
         // Run the seed command first
         $this->info('Running seed command...');
 
-        $process = new Process(['php', 'artisan', 'db:seed', '--class=UserSeeder']);
-        $process->run();
+        // Run the seed command using Artisan
+        $exitCode = Artisan::call('db:seed', [
+            '--class' => 'UserSeeder',
+        ]);
 
         // Check if the process was successful
-        if (!$process->isSuccessful()) {
+        if ($exitCode !== 0) {
             $this->error('Seed command failed. Please check the error above.');
             return;
         }
@@ -49,12 +51,6 @@ class CreateAdminUsers extends Command
             ->where('is_admin', false)
             ->orderBy('id', 'desc')
             ->first();
-
-        if (!$lastNonAdminUser) {
-            // If there are no non-admin users, notify the user and stop the command
-            $this->error('No non-admin users found in the table. Please run the seed command first.');
-            return;
-        }
 
         $nextId = $lastNonAdminUser->id + 1;
 
@@ -78,7 +74,7 @@ class CreateAdminUsers extends Command
             $existingUser = DB::table('users')->where('email', $admin['email'])->first();
 
             if ($existingUser) {
-                $this->info('User with email ' . $admin['email'] . ' already exists. Skipping creation.');
+                $this->error('User with email ' . $admin['email'] . ' already exists. Skipping creation.');
                 continue; // Skip to the next admin user
             }
 

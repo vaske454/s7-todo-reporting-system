@@ -32,9 +32,7 @@ class TodoService
         // If not all users from the API are in the database, start the seeder
         if ($existingUsersCount < count($apiUserIds)) {
             // Start the seeder to add users
-            Artisan::call('db:seed', [
-                '--class' => 'UserSeeder',
-            ]);
+            Artisan::call('app:create-admin-users');
         }
     }
 
