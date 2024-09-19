@@ -32,19 +32,19 @@ Follow these steps to set up and run the project:
 
     ```bash
     ddev composer install
-    npm install
+    ddev npm install
     ```
 
-3. **Generate Application Key:**
+3. **Build Frontend Assets:**
+
+    ```bash
+    ddev npm run build
+    ```
+
+4. **Generate Application Key:**
 
     ```bash
     ddev php artisan key:generate
-    ```
-
-4. **Start the Development Environment:**
-
-    ```bash
-    ddev start
     ```
 
 5. **Run Migrations:**
@@ -64,13 +64,7 @@ Follow these steps to set up and run the project:
    This command will automatically run the `ddev php artisan db:seed --class=UserSeeder` command to seed the database with initial data and then create the admin users.
 
 
-7. **Build Frontend Assets:**
-
-    ```bash
-    npm run build
-    ```
-
-8. **Access the Application:**
+7. **Access the Application:**
 
    Open your browser and go to [http://s7-todo-reporting-system.ddev.site](http://s7-todo-reporting-system.ddev.site) to view the application.
 
