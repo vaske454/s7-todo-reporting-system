@@ -62,7 +62,7 @@ class UserSeeder extends Seeder
                     'updated_at' => Carbon::now(),
                 ]);
             } else {
-                $errorMessage = "API user 'User $userId' with email 'user$userId@example.com' already exists and was not created.\n";
+                $errorMessage = "API user with User ID: $userId already exists and was not created.\n";
                 echo $errorMessage;
                 Log::info($errorMessage);
             }
