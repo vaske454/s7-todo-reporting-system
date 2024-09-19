@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TodoController;
+use App\Http\Controllers\UserSelectionController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,12 +26,12 @@ Route::view('profile', 'profile')
     ->name('profile');
 
 // Route to show the form
-Route::get('select-user', [TodoController::class, 'showForm'])
+Route::get('select-user', [UserSelectionController::class, 'showForm'])
     ->middleware(['auth', 'admin'])
     ->name('select-user');
 
-// Route to generate the report with GET method
-Route::match(['get', 'post'], 'generate-report', [TodoController::class, 'generateReport'])
+// Route to generate the report
+Route::match(['get', 'post'], 'generate-report', [ReportController::class, 'generateReport'])
     ->middleware(['auth', 'admin'])
     ->name('generate-report');
 

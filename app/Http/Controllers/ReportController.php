@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Services\ReportService;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class TodoController extends Controller
+class ReportController extends Controller
 {
     protected ReportService $reportService;
 
@@ -19,21 +17,11 @@ class TodoController extends Controller
     }
 
     /**
-     * Display a form with a user select dropdown.
+     * Generate and send report based on selected user.
      *
-     * @return View
+     * @param Request $request
+     * @return StreamedResponse|RedirectResponse
      */
-    public function showForm(): View
-    {
-        $users = User::all();
-
-        $filteredUsers = $users->filter(function ($user) {
-            return !$user->is_admin;
-        });
-
-        return view('select-user', ['users' => $filteredUsers]);
-    }
-
     public function generateReport(Request $request): StreamedResponse|RedirectResponse
     {
         $userId = $request->input('user_id');
