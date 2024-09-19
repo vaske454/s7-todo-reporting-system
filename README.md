@@ -73,6 +73,7 @@ Follow these steps to set up and run the project:
     ```bash
     ddev launch
     ```
+   To access **phpMyAdmin**, run the command `ddev phpmyadmin`, and to access **Mailpit**, run the command `ddev mailpit`.
 
 ## Description
 
