@@ -5,14 +5,22 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 
 class TodoService
 {
     public function fetchUserTodos($userId = null)
     {
         $url = config('services.todo_service.url');
-        $response = Http::get($url);
-        $todos = $response->json();
+
+        try {
+            $response = Http::get($url);
+            $response->throw(); // Will throw an exception for HTTP errors
+            $todos = $response->json();
+        } catch (\Exception $e) {
+            Log::error('Failed to fetch user todos: ' . $e->getMessage());
+            return [];
+        }
 
         if ($userId) {
             return array_filter($todos, fn($todo) => $todo['userId'] == $userId);
