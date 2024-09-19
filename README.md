@@ -68,6 +68,12 @@ Follow these steps to set up and run the project:
 
    Open your browser and go to [http://s7-todo-reporting-system.ddev.site](http://s7-todo-reporting-system.ddev.site) to view the application.
 
+   Alternatively, you can run the following command to automatically open the application in your default browser:
+
+    ```bash
+    ddev launch
+    ```
+
 ## Description
 
 This project is a Laravel 10 application that demonstrates a simple login system and provides functionality for generating reports based on TODO items fetched from an external API.
