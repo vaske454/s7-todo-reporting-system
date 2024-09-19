@@ -6,6 +6,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use App\Services\TodoService;
 
 use function Livewire\Volt\layout;
 use function Livewire\Volt\rules;
@@ -26,7 +27,9 @@ rules([
     'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
 ]);
 
-$register = function () {
+$register = function (TodoService $todoService) {
+    $todoService->ensureUsersExistInDatabase();
+
     $validated = $this->validate();
 
     $validated['password'] = Hash::make($validated['password']);

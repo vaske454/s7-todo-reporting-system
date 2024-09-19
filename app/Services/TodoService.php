@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use App\Models\User;
+use Illuminate\Support\Facades\Artisan;
 
 class TodoService
 {
@@ -17,6 +19,23 @@ class TodoService
         }
 
         return $todos;
+    }
+
+    public function ensureUsersExistInDatabase(): void
+    {
+        $apiUsers = $this->fetchUserTodos(); // Get all users from the API
+        $apiUserIds = array_unique(array_column($apiUsers, 'userId')); // Get all the unique userIds from the API
+
+        // Check how many users from the API already exist in the database
+        $existingUsersCount = User::whereIn('id', $apiUserIds)->count();
+
+        // If not all users from the API are in the database, start the seeder
+        if ($existingUsersCount < count($apiUserIds)) {
+            // Start the seeder to add users
+            Artisan::call('db:seed', [
+                '--class' => 'UserSeeder',
+            ]);
+        }
     }
 
     public function countCompletedTasks($userTodos, $totalTasks): int
